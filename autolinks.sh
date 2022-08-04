@@ -1,12 +1,21 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
+where_dir=$1
+from_dir=$(ls $2)
+group=$(groups $(whoami))
 
-if [ $1 ]; then
-  if [ -d $1 ]; then
-    echo "Yes, $1 is directory"
-  else
-    echo "No, '$1' is not a directory"
-  fi
-else
-  echo "Please specify the directory"
-fi
+echo $group
+
+# # echo "Where directory: $(ls $1)"
+# # echo "From directory: $(ls $2)"
+
+# for item in $from_dir; do
+#   echo "$2$item"
+#   ln -s "$1" "$2$item"
+#   chown $(whoami):
+#   # ln -s 
+#   # if [ -d $item ]; then
+#   #   echo '$item'
+#   #   # ln -s $1 $2
+#   # fi
+# done
