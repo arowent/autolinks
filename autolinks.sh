@@ -3,7 +3,7 @@
 from_dir=/home/arowent/example/project/
 where_dir=/home/arowent/example/stend/
 
-function setLinks() {
+function setLinks {
   for item in $from_dir*; do
     if [ -d $item ]; then
       if [ -d $where_dir$(basename $item) ]; then
@@ -23,5 +23,5 @@ echo "This script does not require superuser access."
 if [ $1 ]; then
   setLinks
 else
-  echo "Вы не указали папку из которой требуется создать smlink."
+  echo "You have not specified the folder from which you want to create links."
 fi
