@@ -1,27 +1,30 @@
-#!/usr/bin/bash
+#!/usr/bin/env python
 
-from_dir=/home/arowent/example/project/
-where_dir=/home/arowent/example/stend/
+import argparse
+import os
+from os import listdir
+from os.path import isdir
 
-function setLinks {
-  for item in $from_dir*; do
-    if [ -d $item ]; then
-      if [ -d $where_dir$(basename $item) ]; then
-        rm $where_dir$(basename $item)
-        ln -s $item /home/arowent/example/stend/
-        echo "Ссылка на папку $where_dir$(basename $item) - перезаписана."
-      else
-        ln -s $item /home/arowent/example/stend/
-        echo "Ссылка на папку $where_dir$(basename $item) - создана."
-      fi
-    fi
-  done
-}
+def main(args):
+    if args.source and args.receiver:
+        for file in listdir(args.source):
+            file_path = args.source + '\\' + file
+            if isdir(file_path):
+                try:
+                    os.symlink(file_path, args.receiver + '\\' + file)
+                    print('Created symlink from folder {}'.format(file))
+                except FileExistsError:
+                    os.rmdir(args.receiver + '\\' + file)
+                    os.symlink(file_path, args.receiver + '\\' + file)
+                    print('Overwrite symlink from folder {}'.format(file))
+    else:
+        print('Specify the paths for the program to work.')
+        
 
-# run script
-echo "This script does not require superuser access."
-if [ $1 ]; then
-  setLinks
-else
-  echo "You have not specified the folder from which you want to create links."
-fi
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Command Line Autolinks')
+    parser.add_argument('-s', '--source', help='The directory from where we copy the folders.')
+    parser.add_argument('-r', '--receiver', help='The directory that accepts files.')
+    args = parser.parse_args()
+    main(args)
