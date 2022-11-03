@@ -2,6 +2,7 @@ import argparse
 import os
 from os import listdir
 from os.path import isdir
+import shutil
 
 
 class CreateSymlink:
@@ -21,7 +22,11 @@ class CreateSymlink:
                         if os.path.islink(os.sep.join([self.args.receiver, file])):
                             os.unlink(os.sep.join([self.args.receiver, file]))
                             os.symlink(file_path, os.sep.join([self.args.receiver, file]))
-                        print('Overwrite symlink from folder \'{}\''.format(file))
+                            print('Overwrite symlink from folder \'{}\''.format(file))
+                        else:
+                            shutil.rmtree(os.sep.join([self.args.receiver, file]))
+                            os.symlink(file_path, os.sep.join([self.args.receiver, file]))
+                            print(f'{file_path} -> success')
                     except OSError:
                         print('Please run the script with administrator rights')
                         break
