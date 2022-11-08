@@ -1,8 +1,8 @@
 import argparse
 import os
+import shutil
 from os import listdir
 from os.path import isdir
-import shutil
 
 
 class CreateSymlink:
